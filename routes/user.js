@@ -36,7 +36,7 @@ router.get("/:uuid", adminAuth, async (req, res) => {
 });
 
 //create a new user
-router.post("/", adminAuth, async (req, res) => {
+router.post("/", async (req, res) => {
   const { error } = validateUser(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 

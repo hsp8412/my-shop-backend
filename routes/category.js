@@ -41,4 +41,20 @@ router.delete("/:uuid", adminAuth, async (req, res) => {
   }
 });
 
+//update a category
+router.put("/:uuid", adminAuth, async (req, res) => {
+  const { error } = validateCategory(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+  try {
+    const category = await db.category.findOne({
+      where: { uuid: req.params.uuid },
+    });
+    if (!category) return res.status(404).send("Category not found");
+    await category.update(req.body);
+    res.json(category);
+  } catch (err) {
+    res.status(500).json({ err: err.message });
+  }
+});
+
 module.exports = router;

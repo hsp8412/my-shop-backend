@@ -15,7 +15,14 @@ module.exports = (sequelize, DataTypes) => {
       });
       this.belongsToMany(cart, {
         through: cart_product,
+        onDelete: "set null",
+        onUpdate: "set null",
       });
+    }
+    toJSON() {
+      const values = super.toJSON();
+      delete values.id;
+      return values;
     }
   }
   product.init(
@@ -28,19 +35,19 @@ module.exports = (sequelize, DataTypes) => {
           notNull: { msg: "Name is required" },
           notEmpty: { msg: "Name is required" },
           len: {
-            args: [1, 50],
-            msg: "Name must be between 1 and 50 characters",
+            args: [1, 100],
+            msg: "Name must be between 1 and 100 characters",
           },
         },
       },
       description: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: false,
         validate: {
           notNull: { msg: "Description is required" },
           notEmpty: { msg: "Description is required" },
           len: {
-            args: [1, 1000],
+            args: [1, 5000],
             msg: "Description must be between 1 and 1000 characters",
           },
         },
@@ -52,11 +59,11 @@ module.exports = (sequelize, DataTypes) => {
           notNull: { msg: "Price is required" },
           isDecimal: true,
           max: {
-            args: 999999999999999,
-            msg: "Price must be less than $9999999999999",
+            args: [99999999],
+            msg: "Price must be less than $99999999",
           },
           min: {
-            args: 0,
+            args: [0],
             msg: "Price must be greater than $0",
           },
         },
@@ -69,8 +76,8 @@ module.exports = (sequelize, DataTypes) => {
           notEmpty: { msg: "Image URL is required" },
           isUrl: true,
           len: {
-            args: [1, 1000],
-            msg: "Image URL must be between 1 and 1000 characters",
+            args: [1, 2048],
+            msg: "Image URL must be between 1 and 2048 characters",
           },
         },
       },
@@ -84,6 +91,20 @@ module.exports = (sequelize, DataTypes) => {
       isAvailable: {
         type: DataTypes.BOOLEAN,
         defaultValue: true,
+      },
+      stock: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
+        validate: {
+          min: {
+            args: [0],
+            msg: "Stock must be greater than 0",
+          },
+          max: {
+            args: [99999],
+            query: "Stock must be less than 9999",
+          },
+        },
       },
     },
     {

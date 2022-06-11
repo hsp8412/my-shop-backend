@@ -14,6 +14,12 @@ module.exports = (sequelize, DataTypes) => {
         through: order_product,
       });
     }
+    toJSON() {
+      const values = super.toJSON();
+      delete values.id;
+      delete values.userId;
+      return values;
+    }
   }
   order.init(
     {

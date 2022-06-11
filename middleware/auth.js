@@ -5,8 +5,7 @@ function userAuth(req, res, next) {
   if (!token) return res.status(401).send("Access denied");
   try {
     const decoded = jwt.verify(token, process.env.JWT_PRIVATE_KEY);
-
-    if (decoded.uuid && decoded.isAdmin) {
+    if (decoded.uuid && decoded.isAdmin !== null) {
       if (decoded.isAdmin === true) {
         return res.status(401).send("Access denied");
       }
@@ -26,7 +25,7 @@ function adminAuth(req, res, next) {
   try {
     const decoded = jwt.verify(token, process.env.JWT_PRIVATE_KEY);
 
-    if (decoded.uuid && decoded.isAdmin) {
+    if (decoded.uuid && decoded.isAdmin !== null) {
       if (decoded.isAdmin === false) {
         return res.status(401).send("Access denied");
       }
