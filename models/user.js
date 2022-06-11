@@ -12,6 +12,13 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(order, { foreignKey: "userId" });
       this.hasOne(cart, { foreignKey: "userId" });
     }
+
+    toJSON() {
+      const user = super.toJSON();
+      delete user.password;
+      delete user.id;
+      return user;
+    }
   }
   user.init(
     {
