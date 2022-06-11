@@ -1,0 +1,26 @@
+{
+  "name": "my-shop-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hsp8412/my-shop-backend.git"
+  },
+  "author": "Sipeng He",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hsp8412/my-shop-backend/issues"
+  },
+  "homepage": "https://github.com/hsp8412/my-shop-backend#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
+    "joi": "^17.6.0",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.20.1"
+  }
+}
