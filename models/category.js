@@ -11,6 +11,14 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       this.hasMany(product, { foreignKey: "categoryId" });
     }
+
+    toJSON() {
+      const values = super.toJSON();
+      delete values.createdAt;
+      delete values.updatedAt;
+      delete values.id;
+      return values;
+    }
   }
   category.init(
     {

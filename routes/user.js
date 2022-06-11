@@ -9,11 +9,11 @@ const {
   validateUserUpdate,
 } = require("../validation/user");
 const user = require("../models/user");
-const auth = require("../middleware/auth");
+const { auth, adminAuth } = require("../middleware/auth");
 require("dotenv").config();
 
 //get all users
-router.get("/", async (req, res) => {
+router.get("/", adminAuth, async (req, res) => {
   try {
     const users = await db.user.findAll();
     return res.json(users);
@@ -23,7 +23,7 @@ router.get("/", async (req, res) => {
 });
 
 //get one user
-router.get("/:uuid", async (req, res) => {
+router.get("/:uuid", adminAuth, async (req, res) => {
   try {
     const user = await db.user.findOne({ where: { uuid: req.params.uuid } });
     if (!user) {
@@ -36,7 +36,7 @@ router.get("/:uuid", async (req, res) => {
 });
 
 //create a new user
-router.post("/", async (req, res) => {
+router.post("/", adminAuth, async (req, res) => {
   const { error } = validateUser(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -101,7 +101,7 @@ router.patch("/", auth, async (req, res) => {
 });
 
 //admin modify user info
-router.put("/:uuid", async (req, res) => {
+router.put("/:uuid", adminAuth, async (req, res) => {
   const { error } = validateUserUpdate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
