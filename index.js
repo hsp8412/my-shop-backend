@@ -6,6 +6,7 @@ const authRoutes = require("./routes/auth");
 const categoryRoutes = require("./routes/category");
 const productRoutes = require("./routes/product");
 const orderRoutes = require("./routes/order");
+const cartRoutes = require("./routes/cart");
 const cors = require("cors");
 
 server.use(cors());
@@ -17,6 +18,7 @@ server.use("/api/auth", authRoutes);
 server.use("/api/category", categoryRoutes);
 server.use("/api/product", productRoutes);
 server.use("/api/order", orderRoutes);
+server.use("/api/cart", cartRoutes);
 
 const port = process.env.PORT || 4000;
 

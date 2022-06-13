@@ -14,6 +14,14 @@ module.exports = (sequelize, DataTypes) => {
         through: cart_product,
       });
     }
+    toJSON() {
+      const values = super.toJSON();
+      delete values.createdAt;
+      delete values.updatedAt;
+      delete values.id;
+      delete values.userId;
+      return values;
+    }
   }
   cart.init(
     {

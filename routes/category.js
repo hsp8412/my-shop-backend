@@ -4,7 +4,7 @@ const { adminAuth } = require("../middleware/auth");
 const { validateCategory } = require("../validation/category");
 const db = require("../models");
 
-router.get("/", adminAuth, async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const categories = await db.category.findAll();
     res.json(categories);

@@ -68,6 +68,9 @@ router.post("/", async (req, res) => {
 
   try {
     const userCreated = await db.user.create(user);
+    const cart = await db.cart.create({
+      userId: userCreated.id,
+    });
     res.json(userCreated);
   } catch (err) {
     res.status(500).json(err);
