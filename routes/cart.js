@@ -35,16 +35,11 @@ router.post("/", userAuth, async (req, res) => {
       where: { uuid: userUUID },
     });
     if (!user) return res.status(400).send("User not found");
-    const cart = await db.cart.findOne({
+    let cart = await db.cart.findOne({
       where: { userId: user.id },
-      include: [
-        { model: db.user, attributes: ["uuid", "email"] },
-        {
-          model: db.product,
-          attributes: ["uuid", "name"],
-          through: { attributes: ["quantity"] },
-        },
-      ],
+    });
+    await db.cart_product.destroy({
+      where: { cartId: cart.id },
     });
     const items = req.body.items;
     for (item of items) {
@@ -70,31 +65,31 @@ router.post("/", userAuth, async (req, res) => {
 });
 
 //clear cart
-router.delete("/", userAuth, async (req, res) => {
-  const userUUID = req.userUUID;
-  try {
-    const user = await db.user.findOne({
-      where: { uuid: userUUID },
-    });
-    if (!user) return res.status(400).send("User not found");
-    const cart = await db.cart.findOne({
-      where: { userId: user.id },
-      include: [
-        { model: db.user, attributes: ["uuid", "email"] },
-        {
-          model: db.product,
-          attributes: ["uuid", "name"],
-          through: { attributes: ["quantity"] },
-        },
-      ],
-    });
-    await db.cart_product.destroy({
-      where: { cartId: cart.id },
-    });
-    res.json(cart);
-  } catch (err) {
-    res.status(500).json({ err: err.message });
-  }
-});
+// router.delete("/", userAuth, async (req, res) => {
+//   const userUUID = req.userUUID;
+//   try {
+//     const user = await db.user.findOne({
+//       where: { uuid: userUUID },
+//     });
+//     if (!user) return res.status(400).send("User not found");
+//     const cart = await db.cart.findOne({
+//       where: { userId: user.id },
+//       include: [
+//         { model: db.user, attributes: ["uuid", "email"] },
+//         {
+//           model: db.product,
+//           attributes: ["uuid", "name"],
+//           through: { attributes: ["quantity"] },
+//         },
+//       ],
+//     });
+//     await db.cart_product.destroy({
+//       where: { cartId: cart.id },
+//     });
+//     res.json(cart);
+//   } catch (err) {
+//     res.status(500).json({ err: err.message });
+//   }
+// });
 
 module.exports = router;

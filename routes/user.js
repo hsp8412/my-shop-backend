@@ -23,9 +23,24 @@ router.get("/", adminAuth, async (req, res) => {
 });
 
 //get one user
-router.get("/:uuid", adminAuth, async (req, res) => {
+router.get("/admin/:uuid", adminAuth, async (req, res) => {
   try {
     const user = await db.user.findOne({ where: { uuid: req.params.uuid } });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    return res.json(user);
+  } catch (err) {
+    return res.status(500).json({ err: err.message });
+  }
+});
+
+//user get his or her info
+router.get("/me", auth, async (req, res) => {
+  console.log(req.userUUID);
+  const userUUID = req.userUUID;
+  try {
+    const user = await db.user.findOne({ where: { uuid: userUUID } });
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
