@@ -18,7 +18,7 @@ const validateUser = (user) => {
       lastName: joi.string().min(1).max(50).required(),
       password: joi.string().required().min(8).max(100).required(),
       streetAddress: joi.string().min(1).max(300).required(),
-      aptOrSuite: joi.string().min(1).max(50),
+      aptOrSuite: joi.string().max(50),
       city: joi.string().min(1).max(50).required(),
       province: joi
         .any()
@@ -39,7 +39,7 @@ const validateUser = (user) => {
         )
         .required(),
       postalCode: joi.string().min(1).max(6).required(),
-      phone: joi.string().min(1).max(20),
+      phone: joi.string().max(20),
       isAdmin: joi.boolean(),
       isActive: joi.boolean(),
       membershipType: joi.any().valid("basic", "premium"),

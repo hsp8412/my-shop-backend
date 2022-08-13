@@ -37,7 +37,6 @@ router.get("/admin/:uuid", adminAuth, async (req, res) => {
 
 //user get his or her info
 router.get("/me", auth, async (req, res) => {
-  console.log(req.userUUID);
   const userUUID = req.userUUID;
   try {
     const user = await db.user.findOne({ where: { uuid: userUUID } });
@@ -86,6 +85,7 @@ router.post("/", async (req, res) => {
     const cart = await db.cart.create({
       userId: userCreated.id,
     });
+
     res.json(userCreated);
   } catch (err) {
     res.status(500).json(err);

@@ -30,7 +30,6 @@ router.get("/:uuid", async (req, res) => {
 router.post("/", adminAuth, async (req, res) => {
   const { error } = validateProduct(req.body);
   if (error) return res.status(400).send(error.details[0].message);
-  console.log(req.body);
   try {
     const category = await db.category.findOne({
       where: { uuid: req.body.categoryUUID },
