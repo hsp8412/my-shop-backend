@@ -16,7 +16,7 @@ server.use(cors());
 server.post('/webhook', bodyParser.raw({type: 'application/json'}), async (request, response) => {
   const payload = request.body;
   const sig = request.headers['stripe-signature'];
-  const endpointSecret = "whsec_05a5ffc08399e4e325649dacc14efc125e023c3bb3de472a6a2ef61d19b83be5";
+  const endpointSecret = process.env.END_POINT_SECRET;
 
   let event;
 
