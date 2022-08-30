@@ -57,6 +57,17 @@ const validatePassword = (password) => {
   return schema.validate(password);
 };
 
+const validateInfoUpdate = (user) => {
+  const schema = joi
+    .object({
+      firstName: joi.string().min(1).max(50).required(),
+      lastName: joi.string().min(1).max(50).required(),
+      phone: joi.string().min(1).max(20),
+    })
+    .unknown(true);
+  return schema.validate(user);
+};
+
 const validateUserUpdate = (user) => {
   const schema = joi
     .object({
@@ -99,4 +110,5 @@ module.exports = {
   validatePassword,
   validateUserUpdate,
   validateAuthInfo,
+  validateInfoUpdate,
 };

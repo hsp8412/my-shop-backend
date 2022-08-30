@@ -7,6 +7,7 @@ const {
   validateUser,
   validatePassword,
   validateUserUpdate,
+  validateInfoUpdate,
 } = require("../validation/user");
 const user = require("../models/user");
 const { auth, adminAuth } = require("../middleware/auth");
@@ -152,7 +153,7 @@ router.delete("/:uuid", async (req, res) => {
 router.put("/", auth, async (req, res) => {
   const userUUID = req.userUUID;
 
-  const { error } = validateUserUpdate(req.body);
+  const { error } = validateInfoUpdate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
   try {
