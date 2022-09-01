@@ -106,10 +106,39 @@ const validateUserUpdate = (user) => {
   return schema.validate(user);
 };
 
+const validateAddressUpdate = (address) => {
+  const schema = joi.object({
+    streetAddress: joi.string().max(300).required(),
+    aptOrSuite: joi.string().max(50),
+    city: joi.string().max(50).required(),
+    province: joi
+      .string()
+      .valid(
+        "ON",
+        "QC",
+        "BC",
+        "AB",
+        "MB",
+        "SK",
+        "NS",
+        "NB",
+        "NL",
+        "NT",
+        "NU",
+        "YT",
+        "PE"
+      )
+      .required(),
+    postalCode: joi.string().min(1).max(6).required(),
+  });
+  return schema.validate(address);
+};
+
 module.exports = {
   validateUser,
   validatePassword,
   validateUserUpdate,
   validateAuthInfo,
   validateInfoUpdate,
+  validateAddressUpdate,
 };

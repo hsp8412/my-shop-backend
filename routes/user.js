@@ -8,6 +8,7 @@ const {
   validatePassword,
   validateUserUpdate,
   validateInfoUpdate,
+  validateAddressUpdate,
 } = require("../validation/user");
 const user = require("../models/user");
 const { auth, adminAuth } = require("../middleware/auth");
@@ -165,6 +166,28 @@ router.put("/", auth, async (req, res) => {
   try {
     let user = await db.user.findOne({ where: { uuid: userUUID } });
     if (!user) return res.status(404).send("User not found.");
+
+    user.set(req.body);
+    if (!("aptOrSuite" in req.body)) {
+      user.set({ aptOrSuite: null });
+    }
+    await user.save();
+
+    res.json(user);
+  } catch (err) {
+    return res.status(500).json({ err: err.message });
+  }
+});
+
+router.patch("/address", auth, async (req, res) => {
+  const userUUID = req.userUUID;
+
+  const { error } = validateAddressUpdate(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+
+  try {
+    let user = await db.user.findOne({ where: { uuid: userUUID } });
+    if (!user) return res.status(404).send("User not found");
 
     user.set(req.body);
     if (!("aptOrSuite" in req.body)) {
