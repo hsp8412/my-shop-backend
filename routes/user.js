@@ -94,15 +94,21 @@ router.post("/", async (req, res) => {
 });
 
 //update user password
-router.patch("/", auth, async (req, res) => {
+router.patch("/password", auth, async (req, res) => {
   const userUUID = req.userUUID;
 
   const { error } = validatePassword(req.body);
-  if (error) return res.status(400).send("Invalid password");
+  if (error) return res.status(400).send("Invalid request");
 
   try {
     const user = await db.user.findOne({ where: { uuid: userUUID } });
-    if (!user) return res.status(400).send("User not found.");
+    if (!user) return res.status(400).send("User not found");
+
+    const validLogin = await bcrypt.compare(
+      req.body.currentPassword,
+      user.password
+    );
+    if (!validLogin) return res.status(400).send("Invalid current password");
 
     let password = req.body.password;
 

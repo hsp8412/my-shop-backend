@@ -51,6 +51,7 @@ const validateUser = (user) => {
 const validatePassword = (password) => {
   const schema = joi
     .object({
+      currentPassword: joi.string().required().min(8).max(100).required(),
       password: joi.string().required().min(8).max(100).required(),
     })
     .unknown(true);
