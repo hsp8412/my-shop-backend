@@ -16,7 +16,6 @@ module.exports = (sequelize, DataTypes) => {
       const values = super.toJSON();
       delete values.createdAt;
       delete values.updatedAt;
-      delete values.id;
       return values;
     }
   }
