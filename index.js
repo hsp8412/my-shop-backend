@@ -13,6 +13,10 @@ const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 
 server.use(cors());
 
+server.get("/", function (req, res, next) {
+  res.status(200).send("Welcome to Sipeng's shop!");
+});
+
 server.post(
   "/webhook",
   bodyParser.raw({ type: "application/json" }),
