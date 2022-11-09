@@ -17,6 +17,14 @@ server.get("/", function (req, res, next) {
   res.status(200).send("Welcome to Sipeng's shop!");
 });
 
+server.use((req, res, next) => {
+  if (req.originalUrl === "/webhook") {
+    next(); // Do nothing with the body because I need it in a raw state.
+  } else {
+    express.json()(req, res, next); // ONLY do express.json() if the received request is NOT a WebHook from Stripe.
+  }
+});
+
 server.post(
   "/stripe",
   express.raw({ type: "*/*" }),
@@ -59,7 +67,6 @@ server.post(
 );
 
 server.use(express.urlencoded({ extended: true }));
-server.use(express.json());
 server.use("/api/user", userRoutes);
 server.use("/api/auth", authRoutes);
 server.use("/api/category", categoryRoutes);
