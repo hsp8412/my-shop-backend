@@ -19,7 +19,7 @@ server.get("/", function (req, res, next) {
 
 server.post(
   "/stripe",
-  bodyParser.raw({ type: "application/json" }),
+  express.raw({ type: "*/*" }),
   async (request, response) => {
     const payload = request.body;
     const sig = request.headers["stripe-signature"];
