@@ -18,7 +18,7 @@ server.get("/", function (req, res, next) {
 });
 
 server.post(
-  "/webhook",
+  "/stripe",
   bodyParser.raw({ type: "application/json" }),
   async (request, response) => {
     const payload = request.body;
