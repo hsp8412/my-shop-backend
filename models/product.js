@@ -15,8 +15,8 @@ module.exports = (sequelize, DataTypes) => {
       });
       this.belongsToMany(cart, {
         through: cart_product,
-        onDelete: "set null",
-        onUpdate: "set null",
+        onDelete: "cascade",
+        onUpdate: "cascade",
       });
     }
     toJSON() {

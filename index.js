@@ -11,6 +11,8 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 
+// console.log(process.env.NODE_ENV);
+
 server.use(cors());
 
 server.get("/", function (req, res, next) {
@@ -69,7 +71,8 @@ server.use("/api/cart", cartRoutes);
 
 const port = process.env.PORT || 4000;
 
-// db.sequelize.sync({ alter: true }).then(() => {
+// db.sequelize.sync({ force: true }).then(() => {
+// console.log("synced");
 server.listen(port, () => {
   console.log(`listening at: http://localhost:${port}`);
 });
